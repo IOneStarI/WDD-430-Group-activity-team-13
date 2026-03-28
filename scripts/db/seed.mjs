@@ -69,6 +69,8 @@ const items = [
     stockQuantity: 12,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1558997519-83ea9252edc8?w=600&q=80",
   },
   {
     slug: "ceramic-vase",
@@ -81,6 +83,8 @@ const items = [
     stockQuantity: 8,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?w=600&q=80",
   },
   {
     slug: "linen-pouch",
@@ -93,6 +97,8 @@ const items = [
     stockQuantity: 20,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80",
   },
   {
     slug: "wooden-tray",
@@ -105,6 +111,8 @@ const items = [
     stockQuantity: 9,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1611486212557-88be5ff6f941?w=600&q=80",
   },
   {
     slug: "macrame-wall-hanging",
@@ -117,6 +125,8 @@ const items = [
     stockQuantity: 5,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
   },
   {
     slug: "cedar-serving-board",
@@ -129,6 +139,8 @@ const items = [
     stockQuantity: 7,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1550159930-40066082a4fc?w=600&q=80",
   },
   {
     slug: "woven-laundry-hamper",
@@ -141,6 +153,8 @@ const items = [
     stockQuantity: 4,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?w=600&q=80",
   },
   {
     slug: "hand-carved-candle-holder",
@@ -153,6 +167,8 @@ const items = [
     stockQuantity: 11,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=600&q=80",
   },
   {
     slug: "quilted-table-runner",
@@ -165,6 +181,8 @@ const items = [
     stockQuantity: 8,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1528495612343-9ca9f755ac38?w=600&q=80",
   },
   {
     slug: "canvas-market-tote",
@@ -177,6 +195,8 @@ const items = [
     stockQuantity: 14,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1544816565-aa8f5e24f010?w=600&q=80",
   },
   {
     slug: "stitched-journal-cover",
@@ -189,6 +209,8 @@ const items = [
     stockQuantity: 13,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=600&q=80",
   },
   {
     slug: "stoneware-mug",
@@ -201,6 +223,8 @@ const items = [
     stockQuantity: 16,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
   },
   {
     slug: "ceramic-planter",
@@ -213,8 +237,214 @@ const items = [
     stockQuantity: 10,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=80",
   },
 ];
+
+// Step 2: Replace your items INSERT block with this:
+
+for (const item of items) {
+  await sql.query(
+    `
+      INSERT INTO items (
+        seller_id,
+        category_id,
+        slug,
+        name,
+        description,
+        price_cents,
+        stock_quantity,
+        status,
+        is_featured,
+        image_url
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      ON CONFLICT (slug)
+      DO UPDATE SET
+        seller_id = EXCLUDED.seller_id,
+        category_id = EXCLUDED.category_id,
+        name = EXCLUDED.name,
+        description = EXCLUDED.description,
+        price_cents = EXCLUDED.price_cents,
+        stock_quantity = EXCLUDED.stock_quantity,
+        status = EXCLUDED.status,
+        is_featured = EXCLUDED.is_featured,
+        image_url = EXCLUDED.image_url;
+    `,
+    [
+      sellerIdsBySlug.get(item.sellerSlug),
+      categoryIdsBySlug.get(item.categorySlug) ?? null,
+      item.slug,
+      item.name,
+      item.description,
+      item.priceCents,
+      item.stockQuantity,
+      item.status,
+      item.isFeatured,
+      item.imageUrl, // 👈 new
+    ],
+  );
+}
+
+// const items = [
+//   {
+//     slug: "woven-basket",
+//     sellerSlug: "willow-craft",
+//     categorySlug: "home-decor",
+//     name: "Woven Basket",
+//     description:
+//       "Handwoven storage basket made for everyday use with natural fibers and durable construction.",
+//     priceCents: 4200,
+//     stockQuantity: 12,
+//     status: "active",
+//     isFeatured: true,
+//   },
+//   {
+//     slug: "ceramic-vase",
+//     sellerSlug: "river-clay",
+//     categorySlug: "home-decor",
+//     name: "Ceramic Vase",
+//     description:
+//       "A small-batch ceramic vase with a soft matte finish and a warm artisan character.",
+//     priceCents: 5800,
+//     stockQuantity: 8,
+//     status: "active",
+//     isFeatured: true,
+//   },
+//   {
+//     slug: "linen-pouch",
+//     sellerSlug: "oak-thread",
+//     categorySlug: "accessories",
+//     name: "Linen Pouch",
+//     description:
+//       "Minimal hand-stitched pouch designed for travel accessories, stationery, or keepsakes.",
+//     priceCents: 2400,
+//     stockQuantity: 20,
+//     status: "active",
+//     isFeatured: false,
+//   },
+//   {
+//     slug: "wooden-tray",
+//     sellerSlug: "willow-craft",
+//     categorySlug: "home-decor",
+//     name: "Wooden Tray",
+//     description:
+//       "A handcrafted tray with clean edges and a natural finish for display or serving.",
+//     priceCents: 3600,
+//     stockQuantity: 9,
+//     status: "active",
+//     isFeatured: false,
+//   },
+//   {
+//     slug: "macrame-wall-hanging",
+//     sellerSlug: "willow-craft",
+//     categorySlug: "home-decor",
+//     name: "Macrame Wall Hanging",
+//     description:
+//       "A hand-knotted wall piece with layered texture designed to warm up entryways, bedrooms, and studio corners.",
+//     priceCents: 6800,
+//     stockQuantity: 5,
+//     status: "active",
+//     isFeatured: false,
+//   },
+//   {
+//     slug: "cedar-serving-board",
+//     sellerSlug: "willow-craft",
+//     categorySlug: "home-decor",
+//     name: "Cedar Serving Board",
+//     description:
+//       "Solid cedar serving board finished with food-safe oil and a shaped grip for hosting or everyday kitchen use.",
+//     priceCents: 5400,
+//     stockQuantity: 7,
+//     status: "active",
+//     isFeatured: false,
+//   },
+//   {
+//     slug: "woven-laundry-hamper",
+//     sellerSlug: "willow-craft",
+//     categorySlug: "home-decor",
+//     name: "Woven Laundry Hamper",
+//     description:
+//       "Tall woven hamper with reinforced handles and a sturdy frame sized for blankets, laundry, or toy storage.",
+//     priceCents: 8200,
+//     stockQuantity: 4,
+//     status: "active",
+//     isFeatured: true,
+//   },
+//   {
+//     slug: "hand-carved-candle-holder",
+//     sellerSlug: "willow-craft",
+//     categorySlug: "home-decor",
+//     name: "Hand-Carved Candle Holder",
+//     description:
+//       "A sculpted wooden candle holder carved by hand to add a warm accent to tables, shelves, and mantel displays.",
+//     priceCents: 2900,
+//     stockQuantity: 11,
+//     status: "active",
+//     isFeatured: false,
+//   },
+//   {
+//     slug: "quilted-table-runner",
+//     sellerSlug: "oak-thread",
+//     categorySlug: "accessories",
+//     name: "Quilted Table Runner",
+//     description:
+//       "Soft quilted runner stitched with subtle contrast lines to bring texture and warmth to dining tables.",
+//     priceCents: 4700,
+//     stockQuantity: 8,
+//     status: "active",
+//     isFeatured: true,
+//   },
+//   {
+//     slug: "canvas-market-tote",
+//     sellerSlug: "oak-thread",
+//     categorySlug: "accessories",
+//     name: "Canvas Market Tote",
+//     description:
+//       "Durable carryall with reinforced handles and interior pockets for groceries, books, or a day around town.",
+//     priceCents: 3900,
+//     stockQuantity: 14,
+//     status: "active",
+//     isFeatured: false,
+//   },
+//   {
+//     slug: "stitched-journal-cover",
+//     sellerSlug: "oak-thread",
+//     categorySlug: "accessories",
+//     name: "Stitched Journal Cover",
+//     description:
+//       "A reusable fabric journal sleeve with a tie closure sized to hold notebooks, pens, and folded notes.",
+//     priceCents: 2600,
+//     stockQuantity: 13,
+//     status: "active",
+//     isFeatured: false,
+//   },
+//   {
+//     slug: "stoneware-mug",
+//     sellerSlug: "river-clay",
+//     categorySlug: "home-decor",
+//     name: "Stoneware Mug",
+//     description:
+//       "Wheel-thrown mug with a comfortable handle and speckled glaze made for slow mornings and hot drinks.",
+//     priceCents: 3400,
+//     stockQuantity: 16,
+//     status: "active",
+//     isFeatured: false,
+//   },
+//   {
+//     slug: "ceramic-planter",
+//     sellerSlug: "river-clay",
+//     categorySlug: "home-decor",
+//     name: "Ceramic Planter",
+//     description:
+//       "Hand-finished planter with drainage and a grounded silhouette for herbs, succulents, and windowsill greens.",
+//     priceCents: 4400,
+//     stockQuantity: 10,
+//     status: "active",
+//     isFeatured: true,
+//   },
+// ];
 
 const [shopper] = await sql.query(
   `
@@ -227,7 +457,11 @@ const [shopper] = await sql.query(
       role = EXCLUDED.role
     RETURNING id;
   `,
-  ["shopper@handcraftedhaven.local", hashPassword(demoPassword), "Demo Shopper"],
+  [
+    "shopper@handcraftedhaven.local",
+    hashPassword(demoPassword),
+    "Demo Shopper",
+  ],
 );
 
 for (const category of categories) {
@@ -308,9 +542,10 @@ for (const item of items) {
         price_cents,
         stock_quantity,
         status,
-        is_featured
+        is_featured,
+        image_url
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       ON CONFLICT (slug)
       DO UPDATE SET
         seller_id = EXCLUDED.seller_id,
@@ -320,7 +555,8 @@ for (const item of items) {
         price_cents = EXCLUDED.price_cents,
         stock_quantity = EXCLUDED.stock_quantity,
         status = EXCLUDED.status,
-        is_featured = EXCLUDED.is_featured;
+        is_featured = EXCLUDED.is_featured,
+        image_url = EXCLUDED.image_url;
     `,
     [
       sellerIdsBySlug.get(item.sellerSlug),
@@ -332,6 +568,7 @@ for (const item of items) {
       item.stockQuantity,
       item.status,
       item.isFeatured,
+      item.imageUrl,
     ],
   );
 }
