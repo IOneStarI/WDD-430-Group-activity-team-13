@@ -1,8 +1,7 @@
-"use client";
-
 import Link from "next/link";
 import { ReactNode } from "react";
-import { useAuth } from "./auth-provider";
+import { getCurrentUser } from "@/lib/auth";
+import { logoutAction } from "@/app/actions";
 import styles from "./site-shell.module.css";
 
 type SiteShellProps = {
@@ -13,7 +12,8 @@ type SiteShellProps = {
     | "/contact-us"
     | "/cart"
     | "/login"
-    | "/seller-dashboard";
+    | "/seller-dashboard"
+    | "/orders";
 };
 
 const navLinks = [
@@ -22,15 +22,15 @@ const navLinks = [
   { href: "/contact-us", label: "contact us" },
 ] as const;
 
-export function SiteShell({ children, currentPath }: SiteShellProps) {
-  const { role, logout } = useAuth();
+export async function SiteShell({ children, currentPath }: SiteShellProps) {
+  const user = await getCurrentUser();
 
   return (
     <div className={styles.page}>
       <div className={styles.frame}>
         <header className={styles.header}>
           <Link className={styles.logo} href="/">
-            logo
+            handcrafted haven
           </Link>
 
           <nav className={styles.nav} aria-label="Primary">
@@ -43,27 +43,36 @@ export function SiteShell({ children, currentPath }: SiteShellProps) {
                 {link.label}
               </Link>
             ))}
-            {role === "seller" ? (
+            {user?.role === "seller" ? (
               <Link
                 href="/seller-dashboard"
                 data-active={currentPath === "/seller-dashboard"}
               >
-                seller
+                seller dashboard
+              </Link>
+            ) : null}
+            {user?.role === "user" ? (
+              <Link href="/orders" data-active={currentPath === "/orders"}>
+                orders
               </Link>
             ) : null}
           </nav>
 
           <div className={styles.actions}>
             <Link className={styles.authButton} href="/login">
-              {role === "guest" ? "login" : role}
+              {user ? user.fullName : "login"}
             </Link>
-            <Link className={styles.cartButton} href="/cart">
-              cart
-            </Link>
-            {role !== "guest" ? (
-              <button className={styles.logoutButton} type="button" onClick={logout}>
-                logout
-              </button>
+            {user?.role === "user" ? (
+              <Link className={styles.cartButton} href="/cart">
+                cart
+              </Link>
+            ) : null}
+            {user ? (
+              <form action={logoutAction}>
+                <button className={styles.logoutButton} type="submit">
+                  logout
+                </button>
+              </form>
             ) : null}
           </div>
         </header>
@@ -71,11 +80,14 @@ export function SiteShell({ children, currentPath }: SiteShellProps) {
         <main className={styles.content}>{children}</main>
 
         <footer className={styles.footer}>
-          <p className={styles.footerNote}>Footer info</p>
+          <p className={styles.footerNote}>
+            Handmade goods from independent makers, with seller and buyer accounts
+            backed by the marketplace database.
+          </p>
           <div className={styles.socials}>
             <a href="#">Instagram</a>
-            <a href="#">facebook</a>
-            <a href="#">other</a>
+            <a href="#">Facebook</a>
+            <a href="#">Makers</a>
           </div>
         </footer>
       </div>

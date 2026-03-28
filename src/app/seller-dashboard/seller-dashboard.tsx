@@ -1,96 +1,250 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import Link from "next/link";
-import { useAuth } from "@/components/auth-provider";
+import { useActionState, useState } from "react";
+import {
+  createSellerItemAction,
+  deleteSellerItemAction,
+  SellerProfileActionState,
+  SellerItemActionState,
+  updateSellerProfileAction,
+  updateSellerItemAction,
+} from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
+import { SellerDashboardData } from "@/data/account-data";
 import styles from "./page.module.css";
 
-const emptyForm = {
-  name: "",
-  description: "",
-  price: "",
+const initialState: SellerItemActionState = {};
+const initialProfileState: SellerProfileActionState = {};
+
+type SellerDashboardProps = {
+  dashboard: SellerDashboardData;
 };
 
-export function SellerDashboard() {
-  const { role, sellerItems, addSellerItem } = useAuth();
-  const [form, setForm] = useState(emptyForm);
+type InventoryItemCardProps = {
+  item: SellerDashboardData["items"][number];
+};
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+function InventoryItemCard({ item }: InventoryItemCardProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [state, formAction] = useActionState(updateSellerItemAction, initialState);
+  const deleteItemAction = deleteSellerItemAction.bind(null, item.id);
 
-    if (role !== "seller") {
-      return;
-    }
+  return (
+    <article className={styles.itemCard}>
+      <div className={styles.itemVisual}>
+        {item.imageUrl ? (
+          <img
+            alt={item.name}
+            className={styles.itemVisualImage}
+            src={item.imageUrl}
+          />
+        ) : (
+          <span className={styles.itemVisualLabel}>handmade listing</span>
+        )}
+      </div>
 
-    addSellerItem(form);
-    setForm(emptyForm);
-  };
-
-  if (role !== "seller") {
-    return (
-      <section className={styles.gate}>
-        <div className={styles.panel}>
-          <h1>Seller access required</h1>
-          <p>
-            This page is for sellers only. Go to login and choose the seller role
-            to add products.
-          </p>
-          <Link className={styles.linkButton} href="/login">
-            Go to login
-          </Link>
+      <div className={styles.itemBody}>
+        <div className={styles.itemHeader}>
+          <div className={styles.itemTitleBlock}>
+            <h2>{item.name}</h2>
+            <p>{item.description}</p>
+          </div>
+          <div className={styles.itemPriceBlock}>
+            <strong>{item.priceLabel}</strong>
+            <div className={styles.cardActions}>
+              <button
+                className={styles.editToggle}
+                type="button"
+                onClick={() => setIsEditing((current) => !current)}
+              >
+                {isEditing ? "Close" : "Edit"}
+              </button>
+              <form action={deleteItemAction}>
+                <button className={styles.deleteButton} type="submit">
+                  Remove
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-      </section>
-    );
-  }
+
+        {isEditing ? (
+          <form className={styles.editForm} action={formAction}>
+            <input name="itemId" type="hidden" value={item.id} />
+
+            <div className={styles.formGrid}>
+              <label className={styles.field}>
+                <span>Item name</span>
+                <input defaultValue={item.name} name="name" required type="text" />
+              </label>
+
+              <label className={styles.field}>
+                <span>Price in USD</span>
+                <input
+                  defaultValue={item.price}
+                  min="1"
+                  name="price"
+                  required
+                  step="0.01"
+                  type="number"
+                />
+              </label>
+            </div>
+
+            <label className={styles.field}>
+              <span>Description</span>
+              <textarea defaultValue={item.description} name="description" required rows={4} />
+            </label>
+
+            <label className={styles.field}>
+              <span>Image URL</span>
+              <input defaultValue={item.imageUrl ?? ""} name="imageUrl" type="url" />
+            </label>
+
+            <div className={styles.editActions}>
+              <p aria-live="polite" className={styles.inlineMessage}>
+                {state.message}
+              </p>
+              <SubmitButton className={styles.saveButton} pendingLabel="Saving...">
+                Save changes
+              </SubmitButton>
+            </div>
+          </form>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+export function SellerDashboard({ dashboard }: SellerDashboardProps) {
+  const [state, formAction] = useActionState(createSellerItemAction, initialState);
+  const [profileState, profileFormAction] = useActionState(
+    updateSellerProfileAction,
+    initialProfileState,
+  );
 
   return (
     <section className={styles.dashboard}>
       <div className={styles.panel}>
         <p className={styles.eyebrow}>Seller workspace</p>
-        <h1>Add items to the site</h1>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <input
-            required
-            placeholder="Item name"
-            value={form.name}
-            onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-          />
-          <textarea
-            required
-            placeholder="Item description"
-            rows={4}
-            value={form.description}
-            onChange={(event) =>
-              setForm((current) => ({ ...current, description: event.target.value }))
-            }
-          />
-          <input
-            required
-            placeholder="Price"
-            value={form.price}
-            onChange={(event) => setForm((current) => ({ ...current, price: event.target.value }))}
-          />
-          <button className={styles.submit} type="submit">
+        <h1>{dashboard.seller.storeName}</h1>
+        <p>
+          Store slug: @{dashboard.seller.storeSlug}. Publish at least one active item
+          to stay visible in the live shop.
+        </p>
+        {dashboard.seller.bio ? <p>{dashboard.seller.bio}</p> : null}
+
+        <div className={styles.metrics}>
+          <div className={styles.metricCard}>
+            <strong>{dashboard.seller.itemCount}</strong>
+            <span>published items</span>
+          </div>
+          <div className={styles.metricCard}>
+            <strong>Live</strong>
+            <span>shop visibility</span>
+          </div>
+        </div>
+
+        <form className={styles.profileForm} action={profileFormAction}>
+          <div className={styles.profilePreview}>
+            {dashboard.seller.avatarUrl ? (
+              <img
+                alt={dashboard.seller.storeName}
+                className={styles.profileImage}
+                src={dashboard.seller.avatarUrl}
+              />
+            ) : (
+              <span className={styles.profileFallback}>
+                {dashboard.seller.storeName.slice(0, 1)}
+              </span>
+            )}
+          </div>
+
+          <div className={styles.profileFields}>
+            <label className={styles.field}>
+              <span>Seller image URL</span>
+              <input
+                defaultValue={dashboard.seller.avatarUrl ?? ""}
+                name="avatarUrl"
+                placeholder="https://example.com/seller.jpg"
+                type="url"
+              />
+            </label>
+
+            <label className={styles.field}>
+              <span>Seller bio</span>
+              <textarea
+                defaultValue={dashboard.seller.bio ?? ""}
+                name="storeBio"
+                rows={3}
+              />
+            </label>
+
+            <div className={styles.editActions}>
+              <p aria-live="polite" className={styles.inlineMessage}>
+                {profileState.message}
+              </p>
+              <SubmitButton className={styles.saveButton} pendingLabel="Saving profile...">
+                Save seller profile
+              </SubmitButton>
+            </div>
+          </div>
+        </form>
+
+        <form className={styles.form} action={formAction}>
+          <div className={styles.formGrid}>
+            <label className={styles.field}>
+              <span>Item name</span>
+              <input name="name" placeholder="Handmade item name" required type="text" />
+            </label>
+
+            <label className={styles.field}>
+              <span>Price in USD</span>
+              <input
+                min="1"
+                name="price"
+                placeholder="45"
+                required
+                step="0.01"
+                type="number"
+              />
+            </label>
+          </div>
+
+          <label className={styles.field}>
+            <span>Description</span>
+            <textarea
+              name="description"
+              placeholder="Describe materials, finish, and why the item stands out."
+              required
+              rows={5}
+            />
+          </label>
+
+          <label className={styles.field}>
+            <span>Image URL</span>
+            <input name="imageUrl" placeholder="https://example.com/product.jpg" type="url" />
+          </label>
+
+          <p aria-live="polite" className={styles.statusMessage}>
+            {state.message}
+          </p>
+
+          <SubmitButton className={styles.submit} pendingLabel="Publishing item...">
             Add item
-          </button>
+          </SubmitButton>
         </form>
       </div>
 
       <div className={styles.panel}>
-        <p className={styles.eyebrow}>Your items</p>
+        <p className={styles.eyebrow}>Published inventory</p>
         <div className={styles.items}>
-          {sellerItems.length === 0 ? (
-            <p className={styles.empty}>No items added yet.</p>
+          {dashboard.items.length === 0 ? (
+            <p className={styles.empty}>
+              No items added yet. Add your first listing and it will appear in the shop.
+            </p>
           ) : (
-            sellerItems.map((item) => (
-              <article key={item.id} className={styles.itemCard}>
-                <div className={styles.itemHeader}>
-                  <h2>{item.name}</h2>
-                  <span>{item.price}</span>
-                </div>
-                <p>{item.description}</p>
-              </article>
-            ))
+            dashboard.items.map((item) => <InventoryItemCard key={item.id} item={item} />)
           )}
         </div>
       </div>

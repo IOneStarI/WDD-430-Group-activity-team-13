@@ -1,33 +1,66 @@
+import Link from "next/link";
+import { checkoutAction } from "@/app/actions";
 import { SiteShell } from "@/components/site-shell";
-import { products } from "@/data/mock-data";
+import { getCartPageData } from "@/data/account-data";
+import { SubmitButton } from "@/components/submit-button";
 import styles from "./page.module.css";
 
-const cartItems = products.slice(0, 2);
+export default async function CartPage() {
+  const cart = await getCartPageData();
 
-export default function CartPage() {
   return (
     <SiteShell currentPath="/cart">
       <div className={styles.cart}>
-        <p className={styles.title}>item list</p>
+        <div className={styles.header}>
+          <div>
+            <p className={styles.title}>Current cart</p>
+            <h1>{cart.userName}, review your order before checkout.</h1>
+          </div>
+          <Link className={styles.ordersLink} href="/orders">
+            View past orders
+          </Link>
+        </div>
 
         <div className={styles.list}>
-          {cartItems.map((item, index) => (
-            <div key={item.id} className={styles.itemRow}>
-              <div className={styles.thumb}>item {index + 1}</div>
-              <div>{item.name}</div>
-              <div className={styles.price}>{item.price}</div>
+          {cart.isEmpty ? (
+            <div className={styles.emptyState}>
+              <p>Your cart is empty.</p>
+              <Link className={styles.ordersLink} href="/shop">
+                Browse the shop
+              </Link>
             </div>
-          ))}
+          ) : (
+            cart.items.map((item, index) => (
+              <div key={item.id} className={styles.itemRow}>
+                <div className={styles.thumb}>item {index + 1}</div>
+                <div className={styles.itemDetails}>
+                  <Link href={`/shop/${item.slug}`}>{item.name}</Link>
+                  <span>{item.sellerName}</span>
+                  <small>Qty {item.quantity}</small>
+                </div>
+                <div className={styles.priceBlock}>
+                  <span>{item.priceLabel} each</span>
+                  <strong className={styles.price}>{item.lineTotalLabel}</strong>
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
         <div className={styles.summary}>
           <div className={styles.totals}>
-            <span>total</span>
-            <span>amount</span>
+            <span>Total</span>
+            <span>{cart.subtotalLabel}</span>
           </div>
-          <button className={styles.checkout} type="button">
-            checkout
-          </button>
+          <form action={checkoutAction}>
+            <SubmitButton
+              className={styles.checkout}
+              disabled={cart.isEmpty}
+              pendingLabel="Processing..."
+            >
+              Checkout
+            </SubmitButton>
+          </form>
         </div>
       </div>
     </SiteShell>

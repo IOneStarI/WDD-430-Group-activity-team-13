@@ -1,47 +1,60 @@
 import Link from "next/link";
 import { SiteShell } from "@/components/site-shell";
-import { products, sellers } from "@/data/mock-data";
+import { getShopSellers } from "@/data/shop-data";
 import styles from "./home.module.css";
 
-export default function Home() {
+export default async function Home() {
+  const sellers = await getShopSellers();
+  const featuredSellers = sellers.filter((seller) => seller.items.length > 0).slice(0, 4);
+
   return (
     <SiteShell currentPath="/">
       <div className={styles.home}>
-        <p className={styles.heroLabel}>Hero section</p>
-        <div className={styles.heroBox}>hero image</div>
+        <p className={styles.heroLabel}>Independent makers. Live storefronts.</p>
+        <div className={styles.heroBox}>curated handmade marketplace</div>
 
         <section className={styles.description}>
-          <h1>Company description</h1>
+          <h1>Handcrafted Haven connects buyers with real seller storefronts.</h1>
           <p>
-            Handcrafted Haven is a marketplace for artisans to present handmade
-            products, connect with customers, and support a stronger creative
-            community around locally made goods.
+            Sellers register directly in the marketplace, publish products from their
+            dashboard, and appear in the shop when inventory goes live. Buyers can
+            place orders and review their order history from the same account.
           </p>
         </section>
 
         <section className={styles.sellerSection}>
-          <p className={styles.sellerHeader}>Sellers</p>
-          <div className={styles.sellerRow}>
-            <span className={`${styles.arrow} ${styles.arrowLeft}`} />
-            <div className={styles.sellerCards}>
-              {sellers.map((seller, index) => {
-                const product = products[index];
-
-                return (
-                  <Link
-                    key={seller}
-                    className={styles.sellerCard}
-                    href={`/shop/${product.id}`}
-                  >
-                    {seller}
-                  </Link>
-                );
-              })}
-              <Link className={styles.sellerCard} href="/shop">
-                browse more
+          <p className={styles.sellerHeader}>Live sellers</p>
+          <div className={styles.sellerCards}>
+            {featuredSellers.map((seller) => (
+              <Link
+                key={seller.id}
+                className={styles.sellerCard}
+                href={`/shop?seller=${seller.storeSlug}`}
+              >
+                {seller.avatarUrl ? (
+                  <img
+                    alt={seller.storeName}
+                    className={styles.sellerImage}
+                    src={seller.avatarUrl}
+                  />
+                ) : (
+                  <div className={styles.sellerFallback}>{seller.storeName.slice(0, 1)}</div>
+                )}
+                <div className={styles.sellerOverlay}>
+                  <strong>{seller.storeName}</strong>
+                  <span>
+                    {seller.items.length} {seller.items.length === 1 ? "item" : "items"}
+                  </span>
+                </div>
               </Link>
-            </div>
-            <span className={`${styles.arrow} ${styles.arrowRight}`} />
+            ))}
+            <Link className={styles.sellerCard} href="/shop">
+              <div className={styles.sellerFallback}>+</div>
+              <div className={styles.sellerOverlay}>
+                <strong>Browse more</strong>
+                <span>Open all sellers</span>
+              </div>
+            </Link>
           </div>
         </section>
       </div>
