@@ -31,6 +31,11 @@ const categories = [
     slug: "accessories",
     description: "Small artisan accessories, pouches, and personal goods.",
   },
+  {
+    name: "Wooden Toys",
+    slug: "wooden-toys",
+    description: "Handcrafted wooden toys made for children of all ages.",
+  },
 ];
 
 const sellers = [
@@ -40,6 +45,8 @@ const sellers = [
     storeName: "Willow Craft",
     storeSlug: "willow-craft",
     bio: "Natural fiber baskets and wooden pieces made for daily living.",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=400&q=80",
   },
   {
     email: "oak@handcraftedhaven.local",
@@ -47,6 +54,8 @@ const sellers = [
     storeName: "Oak & Thread",
     storeSlug: "oak-thread",
     bio: "Textile goods stitched in small batches for practical use.",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
   },
   {
     email: "river@handcraftedhaven.local",
@@ -54,6 +63,17 @@ const sellers = [
     storeName: "River Clay",
     storeSlug: "river-clay",
     bio: "Ceramic homeware with soft finishes and handmade character.",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&q=80",
+  },
+  {
+    email: "woddy@handcraftedhaven.local",
+    fullName: "Woddy",
+    storeName: "Woddy",
+    storeSlug: "woddy",
+    bio: "Or shop specialized on wooden toys",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&q=80",
   },
 ];
 
@@ -70,7 +90,7 @@ const items = [
     status: "active",
     isFeatured: true,
     imageUrl:
-      "https://images.unsplash.com/photo-1558997519-83ea9252edc8?w=600&q=80",
+      "https://plus.unsplash.com/premium_photo-1689247409718-48408527fe97?w=600&q=80",
   },
   {
     slug: "ceramic-vase",
@@ -98,7 +118,7 @@ const items = [
     status: "active",
     isFeatured: false,
     imageUrl:
-      "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80",
+      "https://images.unsplash.com/photo-1629804190724-ece12511fc74?w=600&q=80",
   },
   {
     slug: "wooden-tray",
@@ -112,7 +132,7 @@ const items = [
     status: "active",
     isFeatured: false,
     imageUrl:
-      "https://images.unsplash.com/photo-1611486212557-88be5ff6f941?w=600&q=80",
+      "https://plus.unsplash.com/premium_photo-1658527064466-df8ed3bbe6e7?w=600&q=80",
   },
   {
     slug: "macrame-wall-hanging",
@@ -126,7 +146,7 @@ const items = [
     status: "active",
     isFeatured: false,
     imageUrl:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+      "https://images.unsplash.com/photo-1632761644913-0da6105863cb?w=600&q=80",
   },
   {
     slug: "cedar-serving-board",
@@ -140,7 +160,7 @@ const items = [
     status: "active",
     isFeatured: false,
     imageUrl:
-      "https://images.unsplash.com/photo-1550159930-40066082a4fc?w=600&q=80",
+      "https://images.unsplash.com/photo-1574923203787-ee36eef07c71?w=600&q=80",
   },
   {
     slug: "woven-laundry-hamper",
@@ -154,7 +174,7 @@ const items = [
     status: "active",
     isFeatured: true,
     imageUrl:
-      "https://images.unsplash.com/photo-1595515106969-1ce29566ff1c?w=600&q=80",
+      "https://images.unsplash.com/photo-1550422399-51746f75d61b?w=600&q=80",
   },
   {
     slug: "hand-carved-candle-holder",
@@ -168,7 +188,7 @@ const items = [
     status: "active",
     isFeatured: false,
     imageUrl:
-      "https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=600&q=80",
+      "https://images.unsplash.com/photo-1655149555494-e85bf335c91f?w=600&q=80",
   },
   {
     slug: "quilted-table-runner",
@@ -182,7 +202,7 @@ const items = [
     status: "active",
     isFeatured: true,
     imageUrl:
-      "https://images.unsplash.com/photo-1528495612343-9ca9f755ac38?w=600&q=80",
+      "https://images.unsplash.com/photo-1710853061218-73e5ba3eafbc?w=600&q=80",
   },
   {
     slug: "canvas-market-tote",
@@ -196,7 +216,7 @@ const items = [
     status: "active",
     isFeatured: false,
     imageUrl:
-      "https://images.unsplash.com/photo-1544816565-aa8f5e24f010?w=600&q=80",
+      "https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&q=80",
   },
   {
     slug: "stitched-journal-cover",
@@ -210,7 +230,7 @@ const items = [
     status: "active",
     isFeatured: false,
     imageUrl:
-      "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=600&q=80",
+      "https://plus.unsplash.com/premium_photo-1760548263985-74c8dc0e0eaf?w=600&q=80",
   },
   {
     slug: "stoneware-mug",
@@ -239,6 +259,62 @@ const items = [
     isFeatured: true,
     imageUrl:
       "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=80",
+  },
+  {
+    slug: "wooden-train-set",
+    sellerSlug: "woddy",
+    categorySlug: "wooden-toys",
+    name: "Wooden Train Set",
+    description:
+      "A classic handcrafted wooden train set with engine, carriages, and interlocking track pieces. Smooth edges and non-toxic paint make it safe for young children.",
+    priceCents: 6500,
+    stockQuantity: 10,
+    status: "active",
+    isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&q=80",
+  },
+  {
+    slug: "wooden-building-blocks",
+    sellerSlug: "woddy",
+    categorySlug: "wooden-toys",
+    name: "Wooden Building Blocks",
+    description:
+      "A set of 30 solid hardwood building blocks in assorted shapes and sizes. Sanded smooth and finished with natural beeswax for safe, open-ended play.",
+    priceCents: 4800,
+    stockQuantity: 15,
+    status: "active",
+    isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=600&q=80",
+  },
+  {
+    slug: "wooden-puzzle",
+    sellerSlug: "woddy",
+    categorySlug: "wooden-toys",
+    name: "Wooden Puzzle",
+    description:
+      "A chunky wooden puzzle with easy-grip knobs. Cut from sustainably sourced birch and painted with child-safe watercolors.",
+    priceCents: 3200,
+    stockQuantity: 18,
+    status: "active",
+    isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1589495374906-b7f5ca5de879?w=600&q=80",
+  },
+  {
+    slug: "wooden-rocking-horse",
+    sellerSlug: "woddy",
+    categorySlug: "wooden-toys",
+    name: "Wooden Rocking Horse",
+    description:
+      "A beautifully carved rocking horse made from solid oak with a smooth natural finish. A timeless heirloom piece sized for toddlers and young children.",
+    priceCents: 12000,
+    stockQuantity: 4,
+    status: "active",
+    isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1702574921255-c0877cfeba1f?w=600&q=80",
   },
 ];
 
@@ -281,16 +357,22 @@ const sellerIdsBySlug = new Map();
 for (const seller of sellers) {
   const [user] = await sql.query(
     `
-      INSERT INTO users (email, password_hash, full_name, role)
-      VALUES ($1, $2, $3, 'seller')
+      INSERT INTO users (email, password_hash, full_name, role, avatar_url)
+      VALUES ($1, $2, $3, 'seller', $4)
       ON CONFLICT (email)
       DO UPDATE SET
         password_hash = EXCLUDED.password_hash,
         full_name = EXCLUDED.full_name,
-        role = EXCLUDED.role
+        role = EXCLUDED.role,
+        avatar_url = EXCLUDED.avatar_url
       RETURNING id;
     `,
-    [seller.email, hashPassword(demoPassword), seller.fullName],
+    [
+      seller.email,
+      hashPassword(demoPassword),
+      seller.fullName,
+      seller.avatarUrl,
+    ],
   );
 
   const [profile] = await sql.query(
