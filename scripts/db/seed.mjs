@@ -31,6 +31,11 @@ const categories = [
     slug: "accessories",
     description: "Small artisan accessories, pouches, and personal goods.",
   },
+  {
+    name: "Wooden Toys",
+    slug: "wooden-toys",
+    description: "Handcrafted wooden toys made for children of all ages.",
+  },
 ];
 
 const sellers = [
@@ -40,6 +45,8 @@ const sellers = [
     storeName: "Willow Craft",
     storeSlug: "willow-craft",
     bio: "Natural fiber baskets and wooden pieces made for daily living.",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=400&q=80",
   },
   {
     email: "oak@handcraftedhaven.local",
@@ -47,6 +54,8 @@ const sellers = [
     storeName: "Oak & Thread",
     storeSlug: "oak-thread",
     bio: "Textile goods stitched in small batches for practical use.",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
   },
   {
     email: "river@handcraftedhaven.local",
@@ -54,6 +63,17 @@ const sellers = [
     storeName: "River Clay",
     storeSlug: "river-clay",
     bio: "Ceramic homeware with soft finishes and handmade character.",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&q=80",
+  },
+  {
+    email: "woddy@handcraftedhaven.local",
+    fullName: "Woddy",
+    storeName: "Woddy",
+    storeSlug: "woddy",
+    bio: "Or shop specialized on wooden toys",
+    avatarUrl:
+      "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&q=80",
   },
 ];
 
@@ -69,6 +89,8 @@ const items = [
     stockQuantity: 12,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://plus.unsplash.com/premium_photo-1689247409718-48408527fe97?w=600&q=80",
   },
   {
     slug: "ceramic-vase",
@@ -81,6 +103,8 @@ const items = [
     stockQuantity: 8,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?w=600&q=80",
   },
   {
     slug: "linen-pouch",
@@ -93,6 +117,8 @@ const items = [
     stockQuantity: 20,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1629804190724-ece12511fc74?w=600&q=80",
   },
   {
     slug: "wooden-tray",
@@ -105,6 +131,8 @@ const items = [
     stockQuantity: 9,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://plus.unsplash.com/premium_photo-1658527064466-df8ed3bbe6e7?w=600&q=80",
   },
   {
     slug: "macrame-wall-hanging",
@@ -117,6 +145,8 @@ const items = [
     stockQuantity: 5,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1632761644913-0da6105863cb?w=600&q=80",
   },
   {
     slug: "cedar-serving-board",
@@ -129,6 +159,8 @@ const items = [
     stockQuantity: 7,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1574923203787-ee36eef07c71?w=600&q=80",
   },
   {
     slug: "woven-laundry-hamper",
@@ -141,6 +173,8 @@ const items = [
     stockQuantity: 4,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1550422399-51746f75d61b?w=600&q=80",
   },
   {
     slug: "hand-carved-candle-holder",
@@ -153,6 +187,8 @@ const items = [
     stockQuantity: 11,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1655149555494-e85bf335c91f?w=600&q=80",
   },
   {
     slug: "quilted-table-runner",
@@ -165,6 +201,8 @@ const items = [
     stockQuantity: 8,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1710853061218-73e5ba3eafbc?w=600&q=80",
   },
   {
     slug: "canvas-market-tote",
@@ -177,6 +215,8 @@ const items = [
     stockQuantity: 14,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&q=80",
   },
   {
     slug: "stitched-journal-cover",
@@ -189,6 +229,8 @@ const items = [
     stockQuantity: 13,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://plus.unsplash.com/premium_photo-1760548263985-74c8dc0e0eaf?w=600&q=80",
   },
   {
     slug: "stoneware-mug",
@@ -201,6 +243,8 @@ const items = [
     stockQuantity: 16,
     status: "active",
     isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
   },
   {
     slug: "ceramic-planter",
@@ -213,8 +257,68 @@ const items = [
     stockQuantity: 10,
     status: "active",
     isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=80",
+  },
+  {
+    slug: "wooden-train-set",
+    sellerSlug: "woddy",
+    categorySlug: "wooden-toys",
+    name: "Wooden Train Set",
+    description:
+      "A classic handcrafted wooden train set with engine, carriages, and interlocking track pieces. Smooth edges and non-toxic paint make it safe for young children.",
+    priceCents: 6500,
+    stockQuantity: 10,
+    status: "active",
+    isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&q=80",
+  },
+  {
+    slug: "wooden-building-blocks",
+    sellerSlug: "woddy",
+    categorySlug: "wooden-toys",
+    name: "Wooden Building Blocks",
+    description:
+      "A set of 30 solid hardwood building blocks in assorted shapes and sizes. Sanded smooth and finished with natural beeswax for safe, open-ended play.",
+    priceCents: 4800,
+    stockQuantity: 15,
+    status: "active",
+    isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=600&q=80",
+  },
+  {
+    slug: "wooden-puzzle",
+    sellerSlug: "woddy",
+    categorySlug: "wooden-toys",
+    name: "Wooden Puzzle",
+    description:
+      "A chunky wooden puzzle with easy-grip knobs. Cut from sustainably sourced birch and painted with child-safe watercolors.",
+    priceCents: 3200,
+    stockQuantity: 18,
+    status: "active",
+    isFeatured: false,
+    imageUrl:
+      "https://images.unsplash.com/photo-1589495374906-b7f5ca5de879?w=600&q=80",
+  },
+  {
+    slug: "wooden-rocking-horse",
+    sellerSlug: "woddy",
+    categorySlug: "wooden-toys",
+    name: "Wooden Rocking Horse",
+    description:
+      "A beautifully carved rocking horse made from solid oak with a smooth natural finish. A timeless heirloom piece sized for toddlers and young children.",
+    priceCents: 12000,
+    stockQuantity: 4,
+    status: "active",
+    isFeatured: true,
+    imageUrl:
+      "https://images.unsplash.com/photo-1702574921255-c0877cfeba1f?w=600&q=80",
   },
 ];
+
+// ---- DATABASE OPERATIONS BELOW ----
 
 const [shopper] = await sql.query(
   `
@@ -227,7 +331,11 @@ const [shopper] = await sql.query(
       role = EXCLUDED.role
     RETURNING id;
   `,
-  ["shopper@handcraftedhaven.local", hashPassword(demoPassword), "Demo Shopper"],
+  [
+    "shopper@handcraftedhaven.local",
+    hashPassword(demoPassword),
+    "Demo Shopper",
+  ],
 );
 
 for (const category of categories) {
@@ -249,16 +357,22 @@ const sellerIdsBySlug = new Map();
 for (const seller of sellers) {
   const [user] = await sql.query(
     `
-      INSERT INTO users (email, password_hash, full_name, role)
-      VALUES ($1, $2, $3, 'seller')
+      INSERT INTO users (email, password_hash, full_name, role, avatar_url)
+      VALUES ($1, $2, $3, 'seller', $4)
       ON CONFLICT (email)
       DO UPDATE SET
         password_hash = EXCLUDED.password_hash,
         full_name = EXCLUDED.full_name,
-        role = EXCLUDED.role
+        role = EXCLUDED.role,
+        avatar_url = EXCLUDED.avatar_url
       RETURNING id;
     `,
-    [seller.email, hashPassword(demoPassword), seller.fullName],
+    [
+      seller.email,
+      hashPassword(demoPassword),
+      seller.fullName,
+      seller.avatarUrl,
+    ],
   );
 
   const [profile] = await sql.query(
@@ -308,9 +422,10 @@ for (const item of items) {
         price_cents,
         stock_quantity,
         status,
-        is_featured
+        is_featured,
+        image_url
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       ON CONFLICT (slug)
       DO UPDATE SET
         seller_id = EXCLUDED.seller_id,
@@ -320,7 +435,8 @@ for (const item of items) {
         price_cents = EXCLUDED.price_cents,
         stock_quantity = EXCLUDED.stock_quantity,
         status = EXCLUDED.status,
-        is_featured = EXCLUDED.is_featured;
+        is_featured = EXCLUDED.is_featured,
+        image_url = EXCLUDED.image_url;
     `,
     [
       sellerIdsBySlug.get(item.sellerSlug),
@@ -332,6 +448,7 @@ for (const item of items) {
       item.stockQuantity,
       item.status,
       item.isFeatured,
+      item.imageUrl,
     ],
   );
 }
