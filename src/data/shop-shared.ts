@@ -5,6 +5,7 @@ export type ShopItem = {
   description: string;
   priceCents: number;
   imageUrl: string | null;
+  rating: number; 
 };
 
 export type ShopSeller = {

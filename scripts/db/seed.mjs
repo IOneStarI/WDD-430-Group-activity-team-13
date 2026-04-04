@@ -91,6 +91,7 @@ const items = [
     isFeatured: true,
     imageUrl:
       "https://plus.unsplash.com/premium_photo-1689247409718-48408527fe97?w=600&q=80",
+    rating: 4.8,
   },
   {
     slug: "ceramic-vase",
@@ -105,6 +106,7 @@ const items = [
     isFeatured: true,
     imageUrl:
       "https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?w=600&q=80",
+    rating: 4.5,
   },
   {
     slug: "linen-pouch",
@@ -119,6 +121,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://images.unsplash.com/photo-1629804190724-ece12511fc74?w=600&q=80",
+    rating: 4.2,
   },
   {
     slug: "wooden-tray",
@@ -133,6 +136,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://plus.unsplash.com/premium_photo-1658527064466-df8ed3bbe6e7?w=600&q=80",
+    rating: 5.0,
   },
   {
     slug: "macrame-wall-hanging",
@@ -147,6 +151,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://images.unsplash.com/photo-1632761644913-0da6105863cb?w=600&q=80",
+    rating: 4.8,
   },
   {
     slug: "cedar-serving-board",
@@ -161,6 +166,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://images.unsplash.com/photo-1574923203787-ee36eef07c71?w=600&q=80",
+    rating: 4.6,
   },
   {
     slug: "woven-laundry-hamper",
@@ -175,6 +181,7 @@ const items = [
     isFeatured: true,
     imageUrl:
       "https://images.unsplash.com/photo-1550422399-51746f75d61b?w=600&q=80",
+    rating: 4.0,
   },
   {
     slug: "hand-carved-candle-holder",
@@ -189,6 +196,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://images.unsplash.com/photo-1655149555494-e85bf335c91f?w=600&q=80",
+    rating: 4.7,
   },
   {
     slug: "quilted-table-runner",
@@ -203,6 +211,7 @@ const items = [
     isFeatured: true,
     imageUrl:
       "https://images.unsplash.com/photo-1710853061218-73e5ba3eafbc?w=600&q=80",
+    rating: 4.3,
   },
   {
     slug: "canvas-market-tote",
@@ -217,6 +226,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&q=80",
+    rating: 4.5,
   },
   {
     slug: "stitched-journal-cover",
@@ -231,6 +241,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://plus.unsplash.com/premium_photo-1760548263985-74c8dc0e0eaf?w=600&q=80",
+    rating: 4.4,
   },
   {
     slug: "stoneware-mug",
@@ -245,6 +256,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+    rating: 4.7,
   },
   {
     slug: "ceramic-planter",
@@ -259,6 +271,7 @@ const items = [
     isFeatured: true,
     imageUrl:
       "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&q=80",
+    rating: 4.9,
   },
   {
     slug: "wooden-train-set",
@@ -273,6 +286,7 @@ const items = [
     isFeatured: true,
     imageUrl:
       "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=600&q=80",
+    rating: 4.8,
   },
   {
     slug: "wooden-building-blocks",
@@ -287,6 +301,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=600&q=80",
+    rating: 4.9,
   },
   {
     slug: "wooden-puzzle",
@@ -301,6 +316,7 @@ const items = [
     isFeatured: false,
     imageUrl:
       "https://images.unsplash.com/photo-1589495374906-b7f5ca5de879?w=600&q=80",
+    rating: 4.1,
   },
   {
     slug: "wooden-rocking-horse",
@@ -315,6 +331,7 @@ const items = [
     isFeatured: true,
     imageUrl:
       "https://images.unsplash.com/photo-1702574921255-c0877cfeba1f?w=600&q=80",
+    rating: 4.6,
   },
 ];
 
@@ -423,9 +440,11 @@ for (const item of items) {
         stock_quantity,
         status,
         is_featured,
+        rating,
         image_url
+        
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       ON CONFLICT (slug)
       DO UPDATE SET
         seller_id = EXCLUDED.seller_id,
@@ -436,6 +455,7 @@ for (const item of items) {
         stock_quantity = EXCLUDED.stock_quantity,
         status = EXCLUDED.status,
         is_featured = EXCLUDED.is_featured,
+        rating = EXCLUDED.rating,
         image_url = EXCLUDED.image_url;
     `,
     [
@@ -448,6 +468,7 @@ for (const item of items) {
       item.stockQuantity,
       item.status,
       item.isFeatured,
+      item.rating,
       item.imageUrl,
     ],
   );

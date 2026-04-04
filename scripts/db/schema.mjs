@@ -80,6 +80,7 @@ export const marketplaceSchemaStatements = [
       status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'active', 'archived', 'sold_out')),
       image_url TEXT,
       is_featured BOOLEAN NOT NULL DEFAULT FALSE,
+      rating NUMERIC(3, 2) NOT NULL DEFAULT 0 CHECK (rating >= 0 AND rating <= 5),
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
