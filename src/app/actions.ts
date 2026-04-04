@@ -614,5 +614,5 @@ export async function checkoutAction() {
   revalidatePath("/cart");
   revalidatePath("/orders");
   revalidatePath("/shop");
-  redirect("/orders");
+  redirect("/cart?success=1");
 }

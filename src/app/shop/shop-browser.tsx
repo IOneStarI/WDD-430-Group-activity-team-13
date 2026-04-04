@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { addToCartAction } from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
 import { formatUsd, ShopSeller } from "@/data/shop-shared";
 import styles from "./page.module.css";
 
@@ -141,29 +143,45 @@ export function ShopBrowser({ sellers, initialSellerFilter = "all" }: ShopBrowse
               </div>
 
               <div className={styles.itemGrid}>
-                {seller.items.map((item) => (
-                  <Link key={item.id} href={`/shop/${item.slug}`} className={styles.item}>
-                    <div className={styles.itemBox}>
-                      <span className={styles.itemBadge}>
-                        {seller.storeName.split(" ")[0]}
-                      </span>
-                      {item.imageUrl ? (
-                        <img
-                          alt={item.name}
-                          className={styles.itemImage}
-                          src={item.imageUrl}
-                        />
-                      ) : (
-                        <span className={styles.itemPlaceholder}>Handmade item</span>
-                      )}
-                    </div>
-                    <div className={styles.itemContent}>
-                      <p className={styles.itemName}>{item.name}</p>
-                      <p className={styles.itemDescription}>{item.description}</p>
-                      <p className={styles.itemPrice}>{formatUsd(item.priceCents)}</p>
-                    </div>
-                  </Link>
-                ))}
+                {seller.items.map((item) => {
+                  const addToCartWithItem = addToCartAction.bind(null, item.id);
+
+                  return (
+                    <article key={item.id} className={styles.item}>
+                      <Link href={`/shop/${item.slug}`} className={styles.itemLink}>
+                        <div className={styles.itemBox}>
+                          <span className={styles.itemBadge}>
+                            {seller.storeName.split(" ")[0]}
+                          </span>
+                          {item.imageUrl ? (
+                            <img
+                              alt={item.name}
+                              className={styles.itemImage}
+                              src={item.imageUrl}
+                            />
+                          ) : (
+                            <span className={styles.itemPlaceholder}>Handmade item</span>
+                          )}
+                        </div>
+                        <div className={styles.itemContent}>
+                          <p className={styles.itemName}>{item.name}</p>
+                          <p className={styles.itemDescription}>{item.description}</p>
+                        </div>
+                      </Link>
+                      <div className={styles.itemFooter}>
+                        <p className={styles.itemPrice}>{formatUsd(item.priceCents)}</p>
+                        <form action={addToCartWithItem}>
+                          <SubmitButton
+                            className={styles.addToCartButton}
+                            pendingLabel="Adding..."
+                          >
+                            Add to cart
+                          </SubmitButton>
+                        </form>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </section>
           ))
