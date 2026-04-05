@@ -37,6 +37,7 @@ export type CartPageData = {
     itemId: string;
     slug: string;
     name: string;
+    imageUrl: string | null;
     sellerName: string;
     quantity: number;
     priceLabel: string;
@@ -154,6 +155,7 @@ export async function getCartPageData(): Promise<CartPageData> {
         ci.unit_price_cents,
         i.slug,
         i.name,
+        i.image_url,
         sp.store_name
       FROM carts c
       INNER JOIN cart_items ci ON ci.cart_id = c.id
@@ -171,6 +173,7 @@ export async function getCartPageData(): Promise<CartPageData> {
     unit_price_cents: number;
     slug: string;
     name: string;
+    image_url: string | null;
     store_name: string | null;
   }[];
 
@@ -186,6 +189,7 @@ export async function getCartPageData(): Promise<CartPageData> {
       itemId: item.item_id,
       slug: item.slug,
       name: item.name,
+      imageUrl: item.image_url,
       sellerName: item.store_name ?? "Independent seller",
       quantity: item.quantity,
       priceLabel: formatUsd(item.unit_price_cents),

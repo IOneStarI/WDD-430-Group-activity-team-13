@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { addToCartAction } from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
 import { formatUsd, ShopSeller } from "@/data/shop-shared";
 import styles from "./page.module.css";
 
