@@ -12,7 +12,58 @@ type ShopBrowserProps = {
   initialSellerFilter?: string;
 };
 
-export function ShopBrowser({ sellers, initialSellerFilter = "all" }: ShopBrowserProps) {
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "3px",
+        marginTop: "6px",
+      }}
+    >
+      {[1, 2, 3, 4, 5].map((star) => {
+        const filled = rating >= star;
+        const partial = !filled && rating > star - 1;
+        const fillPercent = partial ? (rating - (star - 1)) * 100 : 0;
+        const gradientId = `grad-${star}-${Math.round(rating * 10)}`;
+
+        return (
+          <svg key={star} width="14" height="14" viewBox="0 0 20 20">
+            {partial && (
+              <defs>
+                <linearGradient id={gradientId}>
+                  <stop offset={`${fillPercent}%`} stopColor="#F5A623" />
+                  <stop offset={`${fillPercent}%`} stopColor="#6B7280" />
+                </linearGradient>
+              </defs>
+            )}
+            <polygon
+              points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"
+              fill={
+                filled ? "#F5A623" : partial ? `url(#${gradientId})` : "#6B7280"
+              }
+            />
+          </svg>
+        );
+      })}
+      <span
+        style={{
+          fontSize: "12px",
+          color: "var(--color-text-secondary)",
+          marginLeft: "2px",
+        }}
+      >
+        {Number(rating).toFixed(1)}
+      </span>
+    </div>
+  );
+}
+
+export function ShopBrowser({
+  sellers,
+  initialSellerFilter = "all",
+}: ShopBrowserProps) {
   const [selectedSeller, setSelectedSeller] = useState(
     sellers.some((seller) => seller.storeSlug === initialSellerFilter)
       ? initialSellerFilter
@@ -22,7 +73,8 @@ export function ShopBrowser({ sellers, initialSellerFilter = "all" }: ShopBrowse
   const [maxPrice, setMaxPrice] = useState("");
 
   const normalizedQuery = itemNameQuery.trim().toLowerCase();
-  const maxPriceCents = maxPrice === "" ? Number.POSITIVE_INFINITY : Number(maxPrice) * 100;
+  const maxPriceCents =
+    maxPrice === "" ? Number.POSITIVE_INFINITY : Number(maxPrice) * 100;
 
   const filteredSellers = sellers
     .map((seller) => ({
@@ -31,8 +83,10 @@ export function ShopBrowser({ sellers, initialSellerFilter = "all" }: ShopBrowse
         const matchesSeller =
           selectedSeller === "all" || seller.storeSlug === selectedSeller;
         const matchesName =
-          normalizedQuery === "" || item.name.toLowerCase().includes(normalizedQuery);
-        const matchesPrice = Number.isNaN(maxPriceCents) || item.priceCents <= maxPriceCents;
+          normalizedQuery === "" ||
+          item.name.toLowerCase().includes(normalizedQuery);
+        const matchesPrice =
+          Number.isNaN(maxPriceCents) || item.priceCents <= maxPriceCents;
 
         return matchesSeller && matchesName && matchesPrice;
       }),
@@ -66,7 +120,9 @@ export function ShopBrowser({ sellers, initialSellerFilter = "all" }: ShopBrowse
           <div className={styles.filterHeader}>
             <div>
               <p className={styles.filterEyebrow}>Marketplace filters</p>
-              <h2 className={styles.filterTitle}>Browse by seller, item name, and price.</h2>
+              <h2 className={styles.filterTitle}>
+                Browse by seller, item name, and price.
+              </h2>
             </div>
             <button
               className={styles.resetButton}
@@ -137,51 +193,49 @@ export function ShopBrowser({ sellers, initialSellerFilter = "all" }: ShopBrowse
                 <p className={styles.sellerKicker}>Seller</p>
                 <h3 className={styles.sellerName}>{seller.storeName}</h3>
                 <p className={styles.sellerMeta}>
-                  {seller.items.length} {seller.items.length === 1 ? "item" : "items"}
+                  {seller.items.length}{" "}
+                  {seller.items.length === 1 ? "item" : "items"}
                 </p>
-                {seller.bio ? <p className={styles.sellerBio}>{seller.bio}</p> : null}
+                {seller.bio ? (
+                  <p className={styles.sellerBio}>{seller.bio}</p>
+                ) : null}
               </div>
 
               <div className={styles.itemGrid}>
-                {seller.items.map((item) => {
-                  const addToCartWithItem = addToCartAction.bind(null, item.id);
-
-                  return (
-                    <article key={item.id} className={styles.item}>
-                      <Link href={`/shop/${item.slug}`} className={styles.itemLink}>
-                        <div className={styles.itemBox}>
-                          <span className={styles.itemBadge}>
-                            {seller.storeName.split(" ")[0]}
-                          </span>
-                          {item.imageUrl ? (
-                            <img
-                              alt={item.name}
-                              className={styles.itemImage}
-                              src={item.imageUrl}
-                            />
-                          ) : (
-                            <span className={styles.itemPlaceholder}>Handmade item</span>
-                          )}
-                        </div>
-                        <div className={styles.itemContent}>
-                          <p className={styles.itemName}>{item.name}</p>
-                          <p className={styles.itemDescription}>{item.description}</p>
-                        </div>
-                      </Link>
-                      <div className={styles.itemFooter}>
-                        <p className={styles.itemPrice}>{formatUsd(item.priceCents)}</p>
-                        <form action={addToCartWithItem}>
-                          <SubmitButton
-                            className={styles.addToCartButton}
-                            pendingLabel="Adding..."
-                          >
-                            Add to cart
-                          </SubmitButton>
-                        </form>
-                      </div>
-                    </article>
-                  );
-                })}
+                {seller.items.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={`/shop/${item.slug}`}
+                    className={styles.item}
+                  >
+                    <div className={styles.itemBox}>
+                      <span className={styles.itemBadge}>
+                        {seller.storeName.split(" ")[0]}
+                      </span>
+                      {item.imageUrl ? (
+                        <img
+                          alt={item.name}
+                          className={styles.itemImage}
+                          src={item.imageUrl}
+                        />
+                      ) : (
+                        <span className={styles.itemPlaceholder}>
+                          Handmade item
+                        </span>
+                      )}
+                    </div>
+                    <div className={styles.itemContent}>
+                      <p className={styles.itemName}>{item.name}</p>
+                      <p className={styles.itemDescription}>
+                        {item.description}
+                      </p>
+                      <p className={styles.itemPrice}>
+                        {formatUsd(item.priceCents)}
+                      </p>
+                      <StarRating rating={item.rating ?? 0} />
+                    </div>
+                  </Link>
+                ))}
               </div>
             </section>
           ))

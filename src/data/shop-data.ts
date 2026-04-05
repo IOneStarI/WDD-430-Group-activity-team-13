@@ -15,6 +15,7 @@ type ShopSellerRow = {
   item_description: string | null;
   price_cents: number | null;
   image_url: string | null;
+  rating: number | null; 
 };
 
 export async function getShopSellers() {
@@ -30,7 +31,8 @@ export async function getShopSellers() {
       i.name AS item_name,
       i.description AS item_description,
       i.price_cents,
-      i.image_url
+      i.image_url,
+      i.rating
     FROM seller_profiles sp
     INNER JOIN users u ON u.id = sp.user_id
     LEFT JOIN items i
@@ -67,6 +69,7 @@ export async function getShopSellers() {
       description: row.item_description ?? "",
       priceCents: row.price_cents ?? 0,
       imageUrl: row.image_url,
+      rating: Number(row.rating ?? 0),
     });
   }
 
