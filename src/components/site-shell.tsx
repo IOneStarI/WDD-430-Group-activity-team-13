@@ -1,8 +1,7 @@
-"use client";
-
 import Link from "next/link";
 import { ReactNode } from "react";
-import { useAuth } from "./auth-provider";
+import { getCurrentUser } from "@/lib/auth";
+import { logoutAction } from "@/app/actions";
 import styles from "./site-shell.module.css";
 import Image from "next/image";
 import { FaInstagram, FaFacebook, FaXTwitter } from "react-icons/fa6";
@@ -15,7 +14,8 @@ type SiteShellProps = {
     | "/contact-us"
     | "/cart"
     | "/login"
-    | "/seller-dashboard";
+    | "/seller-dashboard"
+    | "/orders";
 };
 
 const navLinks = [
@@ -24,8 +24,8 @@ const navLinks = [
   { href: "/contact-us", label: "Contact Us" },
 ] as const;
 
-export function SiteShell({ children, currentPath }: SiteShellProps) {
-  const { role, logout } = useAuth();
+export async function SiteShell({ children, currentPath }: SiteShellProps) {
+  const user = await getCurrentUser();
 
   return (
     <div className={styles.page}>
@@ -52,7 +52,7 @@ export function SiteShell({ children, currentPath }: SiteShellProps) {
                 {link.label}
               </Link>
             ))}
-            {role === "seller" ? (
+            {user?.role === "seller" ? (
               <Link
                 href="/seller-dashboard"
                 data-active={currentPath === "/seller-dashboard"}
@@ -84,7 +84,10 @@ export function SiteShell({ children, currentPath }: SiteShellProps) {
         <main className={styles.content}>{children}</main>
 
         <footer className={styles.footer}>
-          <p className={styles.footerNote}>Footer info</p>
+          <p className={styles.footerNote}>
+            Handmade goods from independent makers, with seller and buyer accounts
+            backed by the marketplace database.
+          </p>
           <div className={styles.socials}>
             <a href="https://instagram.com/handcraftedhaven" target="_blank" rel="noopener noreferrer">
               <FaInstagram />

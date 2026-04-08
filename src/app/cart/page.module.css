@@ -1,55 +1,241 @@
 .cart {
   display: grid;
-  gap: 2rem;
-  padding: 0.5rem 1rem 1rem;
+  gap: 1.5rem;
+  padding: 0.5rem 1rem 1.5rem;
+}
+
+.hero {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 1.5rem;
+  border: 1px solid rgba(248, 250, 252, 0.1);
+  border-radius: calc(var(--radius-lg) + 0.5rem);
+  background:
+    radial-gradient(circle at top left, rgba(212, 163, 115, 0.22), transparent 35%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(12, 18, 14, 0.34));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.header h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  max-width: 12ch;
+  line-height: 1.02;
 }
 
 .title {
-  text-align: center;
-  font-size: 0.85rem;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.subtitle {
+  max-width: 58ch;
+  margin-top: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.successBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 1.2rem 1.25rem;
+  border: 1px solid rgba(136, 206, 162, 0.26);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(72, 146, 100, 0.24), rgba(16, 26, 20, 0.92));
+}
+
+.successLabel {
+  color: #a7e5b9;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+
+.successBanner h2 {
+  margin-top: 0.25rem;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+}
+
+.successBanner p {
+  margin-top: 0.35rem;
+  color: rgba(248, 250, 252, 0.82);
+}
+
+.successLink,
+.list {
+  width: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 1.5rem;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  align-items: start;
 }
 
 .list {
   display: grid;
   gap: 1.2rem;
-  width: min(920px, 100%);
-  margin: 0 auto;
 }
 
 .itemRow {
   display: grid;
-  grid-template-columns: 5rem 1fr 7rem;
+  grid-template-columns: 5rem 1fr auto;
   gap: 1rem;
   align-items: center;
-  padding: 1rem;
-  border: 1px solid rgba(248, 250, 252, 0.12);
+  padding: 1.1rem;
+  border: 1px solid rgba(248, 250, 252, 0.1);
   border-radius: var(--radius-lg);
-  background: var(--surface-soft);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
+    var(--surface-soft);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .thumb {
+  position: relative;
+  overflow: hidden;
   min-height: 5rem;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(248, 250, 252, 0.16);
+  border: 1px solid rgba(248, 250, 252, 0.1);
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.03);
+  background:
+    linear-gradient(145deg, rgba(212, 163, 115, 0.18), rgba(255, 255, 255, 0.04)),
+    rgba(255, 255, 255, 0.03);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: rgba(248, 250, 252, 0.74);
+}
+
+.thumbImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemDetails {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.itemDetails a {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.itemDetails span,
+.itemDetails small {
+  color: var(--color-text-secondary);
+}
+
+.priceBlock {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: end;
+  color: var(--color-text-secondary);
 }
 
 .price {
-  justify-self: end;
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+}
+
+.ordersLink,
+.successLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(248, 250, 252, 0.16);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.emptyState {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  padding: 2rem;
+  border: 1px dashed rgba(248, 250, 252, 0.16);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at top left, rgba(212, 163, 115, 0.12), transparent 30%),
+    rgba(255, 255, 255, 0.02);
+  color: var(--color-text-secondary);
+}
+
+.emptyIcon {
+  display: grid;
+  place-items: center;
+  min-width: 4rem;
+  min-height: 4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.emptyCopy {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.emptyCopy h2 {
+  color: var(--color-text-primary);
 }
 
 .summary {
   display: grid;
   gap: 1rem;
-  width: min(320px, 100%);
-  margin: 0 auto;
-  text-align: center;
+  position: sticky;
+  top: 1.5rem;
   padding: 1.25rem;
   border: 1px solid rgba(248, 250, 252, 0.12);
   border-radius: var(--radius-lg);
-  background: var(--surface-soft);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+    var(--surface-soft);
+}
+
+.summaryHeader {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.summaryHeader p,
+.summaryNote {
+  color: var(--color-text-secondary);
+}
+
+.summaryHeader h2 {
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+}
+
+.summaryRows {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(248, 250, 252, 0.08);
+  border-bottom: 1px solid rgba(248, 250, 252, 0.08);
 }
 
 .totals {
@@ -57,21 +243,52 @@
   justify-content: space-between;
 }
 
+.summaryNote {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
 .checkout {
+  width: 100%;
   min-height: 3rem;
   border: 1px solid rgba(248, 250, 252, 0.16);
   border-radius: var(--radius-sm);
-  background: rgba(212, 163, 115, 0.12);
+  background: linear-gradient(135deg, rgba(212, 163, 115, 0.28), rgba(184, 134, 86, 0.18));
   color: var(--color-text-primary);
+  font-weight: 600;
 }
 
 @media (max-width: 720px) {
+  .hero,
+  .content,
+  .successBanner {
+    width: 100%;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .successBanner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .itemRow {
     grid-template-columns: 1fr;
     justify-items: start;
   }
 
-  .price {
-    justify-self: start;
+  .priceBlock {
+    justify-items: start;
+  }
+
+  .summary {
+    position: static;
   }
 }

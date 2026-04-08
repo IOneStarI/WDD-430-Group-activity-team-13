@@ -4,7 +4,6 @@
   gap: 1.5rem;
 }
 
-.gate,
 .panel {
   display: grid;
   gap: 1rem;
@@ -33,13 +32,88 @@
   line-height: 1.7;
 }
 
+.metrics,
+.formGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.metrics,
+.formGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.metricCard {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1rem;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.metricCard strong {
+  font-size: 1.5rem;
+  color: var(--color-text-primary);
+}
+
 .form {
   display: grid;
   gap: 0.9rem;
 }
 
-.form input,
-.form textarea {
+.profileForm {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.profilePreview {
+  min-height: 8rem;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  border-radius: calc(var(--radius-md) - 4px);
+  background:
+    radial-gradient(circle at top, rgba(212, 163, 115, 0.18), transparent 55%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileFallback {
+  font-family: var(--font-primary), sans-serif;
+  font-size: 2.4rem;
+  color: rgba(245, 239, 230, 0.88);
+}
+
+.profileFields {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.field span {
+  font-size: 0.88rem;
+  color: var(--color-text-secondary);
+}
+
+.field input,
+.field textarea,
+.field select {
   width: 100%;
   padding: 0.95rem 1rem;
   border: 1px solid rgba(248, 250, 252, 0.14);
@@ -48,8 +122,12 @@
   color: var(--color-text-primary);
 }
 
-.submit,
-.linkButton {
+.statusMessage {
+  min-height: 1.5rem;
+  color: var(--color-secondary);
+}
+
+.submit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -64,26 +142,139 @@
 .items {
   display: grid;
   gap: 1rem;
+  align-content: start;
 }
 
 .itemCard {
   display: grid;
-  gap: 0.7rem;
-  padding: 1rem;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  gap: 1.1rem;
+  padding: 1.1rem;
   border: 1px solid rgba(248, 250, 252, 0.12);
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.03);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+    rgba(255, 255, 255, 0.03);
+}
+
+.itemVisual {
+  min-height: 9rem;
+  display: grid;
+  place-items: stretch;
+  position: relative;
+  overflow: hidden;
+  padding: 0.95rem;
+  border: 1px solid rgba(248, 250, 252, 0.12);
+  border-radius: calc(var(--radius-md) - 4px);
+  background:
+    radial-gradient(circle at top, rgba(212, 163, 115, 0.18), transparent 60%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.itemVisualImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemVisualLabel {
+  position: relative;
+  z-index: 1;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+
+.itemBody {
+  display: grid;
+  gap: 1rem;
 }
 
 .itemHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.itemTitleBlock {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.itemHeader h2 {
+  font-size: 1.15rem;
+}
+
+.itemTitleBlock p {
+  max-width: 48ch;
+  color: var(--color-text-secondary);
+}
+
+.itemPriceBlock {
+  display: grid;
+  justify-items: end;
+  gap: 0.6rem;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.itemPriceBlock strong {
+  font-size: 1.2rem;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.editToggle,
+.saveButton,
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.7rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(248, 250, 252, 0.16);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+}
+
+.editToggle {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.saveButton {
+  background: rgba(212, 163, 115, 0.14);
+}
+
+.deleteButton {
+  background: rgba(170, 80, 68, 0.16);
+}
+
+.editForm {
+  display: grid;
+  gap: 0.9rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(248, 250, 252, 0.08);
+}
+
+.editActions {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
 }
 
-.itemHeader h2 {
-  font-size: 1.15rem;
+.inlineMessage {
+  min-height: 1.5rem;
+  color: var(--color-text-secondary);
 }
 
 .empty {
@@ -93,5 +284,31 @@
 @media (max-width: 900px) {
   .dashboard {
     grid-template-columns: 1fr;
+  }
+
+  .metrics,
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .profileForm {
+    grid-template-columns: 1fr;
+  }
+
+  .itemCard {
+    grid-template-columns: 1fr;
+  }
+
+  .itemHeader,
+  .editActions {
+    flex-direction: column;
+  }
+
+  .itemPriceBlock {
+    justify-items: start;
+  }
+
+  .cardActions {
+    flex-wrap: wrap;
   }
 }
