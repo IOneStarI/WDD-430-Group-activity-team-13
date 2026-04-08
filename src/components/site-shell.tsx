@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { useAuth } from "./auth-provider";
 import styles from "./site-shell.module.css";
+import Image from "next/image";
+import { FaInstagram, FaFacebook, FaXTwitter } from "react-icons/fa6";
 
 type SiteShellProps = {
   children: ReactNode;
@@ -19,7 +21,7 @@ type SiteShellProps = {
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
-  { href: "/contact-us", label: "contact us" },
+  { href: "/contact-us", label: "Contact Us" },
 ] as const;
 
 export function SiteShell({ children, currentPath }: SiteShellProps) {
@@ -29,8 +31,15 @@ export function SiteShell({ children, currentPath }: SiteShellProps) {
     <div className={styles.page}>
       <div className={styles.frame}>
         <header className={styles.header}>
+          
+          
           <Link className={styles.logo} href="/">
-            logo
+            <Image 
+              src="/logo.png.jpeg" 
+              alt="Handcrafted Haven Logo" 
+              width={80}
+              height={80}
+            />
           </Link>
 
           <nav className={styles.nav} aria-label="Primary">
@@ -48,21 +57,25 @@ export function SiteShell({ children, currentPath }: SiteShellProps) {
                 href="/seller-dashboard"
                 data-active={currentPath === "/seller-dashboard"}
               >
-                seller
+                Seller
               </Link>
             ) : null}
           </nav>
 
           <div className={styles.actions}>
             <Link className={styles.authButton} href="/login">
-              {role === "guest" ? "login" : role}
+              {role === "guest" ? "Login" : role}
             </Link>
             <Link className={styles.cartButton} href="/cart">
-              cart
+              Cart
             </Link>
             {role !== "guest" ? (
-              <button className={styles.logoutButton} type="button" onClick={logout}>
-                logout
+              <button
+                className={styles.logoutButton}
+                type="button"
+                onClick={logout}
+              >
+                Logout
               </button>
             ) : null}
           </div>
@@ -73,9 +86,15 @@ export function SiteShell({ children, currentPath }: SiteShellProps) {
         <footer className={styles.footer}>
           <p className={styles.footerNote}>Footer info</p>
           <div className={styles.socials}>
-            <a href="#">Instagram</a>
-            <a href="#">facebook</a>
-            <a href="#">other</a>
+            <a href="https://instagram.com/handcraftedhaven" target="_blank" rel="noopener noreferrer">
+              <FaInstagram />
+            </a>
+            <a href="https://facebook.com/handcraftedhaven" target="_blank" rel="noopener noreferrer">
+              <FaFacebook />
+            </a>
+            <a href="https://twitter.com/handcraftedhaven" target="_blank" rel="noopener noreferrer">
+              <FaXTwitter />
+            </a>
           </div>
         </footer>
       </div>
