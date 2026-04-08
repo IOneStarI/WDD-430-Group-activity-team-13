@@ -1,21 +1,14 @@
-import Link from "next/link";
 import { ReactNode } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { getCurrentUser } from "@/lib/auth";
 import { logoutAction } from "@/app/actions";
 import styles from "./site-shell.module.css";
-import Image from "next/image";
 import { FaInstagram, FaFacebook, FaXTwitter } from "react-icons/fa6";
 
 type SiteShellProps = {
   children: ReactNode;
-  currentPath:
-    | "/"
-    | "/shop"
-    | "/contact-us"
-    | "/cart"
-    | "/login"
-    | "/seller-dashboard"
-    | "/orders";
+  currentPath: string;
 };
 
 const navLinks = [
@@ -31,7 +24,6 @@ export async function SiteShell({ children, currentPath }: SiteShellProps) {
     <div className={styles.page}>
       <div className={styles.frame}>
         <header className={styles.header}>
-          
           <Link className={styles.logo} href="/">
             <Image 
               src="/logo.png.jpeg" 
@@ -39,13 +31,14 @@ export async function SiteShell({ children, currentPath }: SiteShellProps) {
               width={80}
               height={80}
             />
+            <span>handcrafted haven</span>
           </Link>
 
           <nav className={styles.nav} aria-label="Primary">
             {navLinks.map((link) => (
-              <Link
+              <Link 
                 key={link.href}
-                href={link.href}
+                href={link.href} 
                 data-active={currentPath === link.href}
               >
                 {link.label}
@@ -75,30 +68,27 @@ export async function SiteShell({ children, currentPath }: SiteShellProps) {
             <Link className={styles.authButton} href="/login">
               {user ? user.fullName : "login"}
             </Link>
-
+            
             {user?.role === "user" && (
               <Link className={styles.cartButton} href="/cart">
                 cart
               </Link>
             )}
 
-            {user ? (
+            {user && (
               <form action={logoutAction}>
                 <button className={styles.logoutButton} type="submit">
                   logout
                 </button>
               </form>
-            ) : null}
+            )}
           </div>
         </header>
 
-        <main className={styles.content}>{children}</main>
+        <main>{children}</main>
 
         <footer className={styles.footer}>
-          <p className={styles.footerNote}>
-            Handmade goods from independent makers, with seller and buyer accounts
-            backed by the marketplace database.
-          </p>
+          <p>© 2026 Handcrafted Haven. Backed by the marketplace database.</p>
           <div className={styles.socials}>
             <a href="https://instagram.com/handcraftedhaven" target="_blank" rel="noopener noreferrer">
               <FaInstagram />
