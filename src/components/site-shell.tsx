@@ -32,7 +32,6 @@ export async function SiteShell({ children, currentPath }: SiteShellProps) {
       <div className={styles.frame}>
         <header className={styles.header}>
           
-          
           <Link className={styles.logo} href="/">
             <Image 
               src="/logo.png.jpeg" 
@@ -52,31 +51,43 @@ export async function SiteShell({ children, currentPath }: SiteShellProps) {
                 {link.label}
               </Link>
             ))}
-            {user?.role === "seller" ? (
+            
+            {user?.role === "seller" && (
               <Link
                 href="/seller-dashboard"
                 data-active={currentPath === "/seller-dashboard"}
               >
-                Seller
+                seller dashboard
               </Link>
-            ) : null}
+            )}
+
+            {user?.role === "user" && (
+              <Link 
+                href="/orders" 
+                data-active={currentPath === "/orders"}
+              >
+                orders
+              </Link>
+            )}
           </nav>
 
           <div className={styles.actions}>
             <Link className={styles.authButton} href="/login">
-              {role === "guest" ? "Login" : role}
+              {user ? user.fullName : "login"}
             </Link>
-            <Link className={styles.cartButton} href="/cart">
-              Cart
-            </Link>
-            {role !== "guest" ? (
-              <button
-                className={styles.logoutButton}
-                type="button"
-                onClick={logout}
-              >
-                Logout
-              </button>
+
+            {user?.role === "user" && (
+              <Link className={styles.cartButton} href="/cart">
+                cart
+              </Link>
+            )}
+
+            {user ? (
+              <form action={logoutAction}>
+                <button className={styles.logoutButton} type="submit">
+                  logout
+                </button>
+              </form>
             ) : null}
           </div>
         </header>
