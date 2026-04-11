@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     <SiteShell currentPath="/">
       <div className={styles.home}>
-        <p className={styles.heroLabel}>Independent makers. Live storefronts.</p>
+        
         <div className={styles.heroBox}>curated handmade marketplace</div>
 
         <section className={styles.description}>

@@ -1,4 +1,5 @@
 import { SiteShell } from "@/components/site-shell";
+import { getCurrentUser } from "@/lib/auth";
 import { getShopSellers } from "@/data/shop-data";
 import { ShopBrowser } from "./shop-browser";
 
@@ -9,7 +10,8 @@ type ShopPageProps = {
 };
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
-  const sellers = await getShopSellers();
+  const user = await getCurrentUser();
+  const sellers = await getShopSellers(user?.id);
   const { seller } = await searchParams;
 
   return (

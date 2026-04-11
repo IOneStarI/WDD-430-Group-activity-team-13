@@ -7,6 +7,7 @@ import { requireSeller, requireUser } from "@/lib/auth";
 import { hashPassword, verifyPassword } from "@/lib/password";
 import { clearSession, createSession } from "@/lib/session";
 import { createUniqueSlug, slugify } from "@/lib/slug";
+import { ensureItemReviewsSchema } from "@/data/review-data";
 
 export type AuthActionState = {
   success?: boolean;
@@ -454,6 +455,69 @@ export async function addToCartAction(itemId: string) {
   );
 
   revalidatePath("/cart");
+}
+
+export async function reviewItemAction(formData: FormData) {
+  const user = await requireUser();
+
+  if (user.role !== "user") {
+    return;
+  }
+
+  const itemId = getField(formData, "itemId");
+  const rating = Number(getField(formData, "rating"));
+
+  if (!itemId || !Number.isInteger(rating) || rating < 1 || rating > 5) {
+    return;
+  }
+
+  await ensureItemReviewsSchema();
+
+  const [item] = (await sql.query(
+    `
+      SELECT id, slug
+      FROM items
+      WHERE id = $1
+        AND status = 'active'
+      LIMIT 1;
+    `,
+    [itemId],
+  )) as { id: string; slug: string }[];
+
+  if (!item) {
+    return;
+  }
+
+  await sql.query(
+    `
+      INSERT INTO item_reviews (item_id, user_id, rating)
+      VALUES ($1, $2, $3)
+      ON CONFLICT (item_id, user_id)
+      DO UPDATE SET
+        rating = EXCLUDED.rating,
+        updated_at = NOW();
+    `,
+    [item.id, user.id, rating],
+  );
+
+  await sql.query(
+    `
+      UPDATE items
+      SET rating = review_stats.average_rating
+      FROM (
+        SELECT item_id, ROUND(AVG(rating)::numeric, 2) AS average_rating
+        FROM item_reviews
+        WHERE item_id = $1
+        GROUP BY item_id
+      ) review_stats
+      WHERE items.id = review_stats.item_id;
+    `,
+    [item.id],
+  );
+
+  revalidatePath("/");
+  revalidatePath("/shop");
+  revalidatePath(`/shop/${item.slug}`);
 }
 
 export async function checkoutAction() {

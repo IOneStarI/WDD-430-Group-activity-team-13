@@ -86,6 +86,17 @@ export const marketplaceSchemaStatements = [
     );
   `,
   `
+    CREATE TABLE IF NOT EXISTS item_reviews (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      item_id UUID NOT NULL REFERENCES items(id) ON DELETE CASCADE,
+      user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      UNIQUE (item_id, user_id)
+    );
+  `,
+  `
     CREATE TABLE IF NOT EXISTS carts (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -156,6 +167,9 @@ export const marketplaceSchemaStatements = [
     CREATE INDEX IF NOT EXISTS idx_items_status ON items(status);
   `,
   `
+    CREATE INDEX IF NOT EXISTS idx_item_reviews_item_id ON item_reviews(item_id);
+  `,
+  `
     CREATE INDEX IF NOT EXISTS idx_carts_user_id ON carts(user_id);
   `,
   `
@@ -210,6 +224,15 @@ export const marketplaceSchemaStatements = [
   `
     CREATE TRIGGER set_items_updated_at
     BEFORE UPDATE ON items
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at();
+  `,
+  `
+    DROP TRIGGER IF EXISTS set_item_reviews_updated_at ON item_reviews;
+  `,
+  `
+    CREATE TRIGGER set_item_reviews_updated_at
+    BEFORE UPDATE ON item_reviews
     FOR EACH ROW
     EXECUTE FUNCTION set_updated_at();
   `,

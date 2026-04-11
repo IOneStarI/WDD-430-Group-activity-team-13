@@ -178,10 +178,11 @@
 
 .item {
   display: grid;
+  grid-template-rows: 1fr auto;
   gap: 0.9rem;
   padding: 0.6rem;
   border: 1px solid rgba(248, 250, 252, 0.1);
-  border-radius: 1.45rem;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.025);
   transition:
     transform 0.2s ease,
@@ -198,6 +199,7 @@
 .itemLink {
   display: grid;
   gap: 0.9rem;
+  align-content: start;
 }
 
 .itemBox {
@@ -255,6 +257,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  min-height: 3.1rem;
 }
 
 .itemName {
@@ -277,15 +280,44 @@
   color: #f3dcc2;
 }
 
+.ratingSummary {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 0.35rem;
+}
+
+.ratingSummary span {
+  margin-left: 0.15rem;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+}
+
 .addToCartButton {
   min-height: 2.6rem;
   padding: 0 1rem;
-  border: 1px solid rgba(248, 250, 252, 0.16);
-  border-radius: 999px;
+  border: 1px solid rgba(212, 163, 115, 0.36);
+  border-radius: 8px;
   background: linear-gradient(135deg, rgba(212, 163, 115, 0.24), rgba(184, 134, 86, 0.14));
   color: #f5efe6;
   font: inherit;
   font-weight: 600;
+  white-space: nowrap;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.addToCartButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(212, 163, 115, 0.58);
+  background: rgba(212, 163, 115, 0.22);
+}
+
+.addToCartButton:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 
 .emptyState {

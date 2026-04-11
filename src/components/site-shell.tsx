@@ -28,10 +28,14 @@ export async function SiteShell({ children, currentPath }: SiteShellProps) {
             <Image 
               src="/logo.png.jpeg" 
               alt="Handcrafted Haven Logo" 
+              className={styles.logoImage}
               width={80}
               height={80}
             />
-            <span>handcrafted haven</span>
+            <span className={styles.logoText}>
+              <span>Handcrafted</span>
+              <strong>Haven</strong>
+            </span>
           </Link>
 
           <nav className={styles.nav} aria-label="Primary">
@@ -59,7 +63,7 @@ export async function SiteShell({ children, currentPath }: SiteShellProps) {
                 href="/orders" 
                 data-active={currentPath === "/orders"}
               >
-                orders
+                Orders
               </Link>
             )}
           </nav>
@@ -71,21 +75,21 @@ export async function SiteShell({ children, currentPath }: SiteShellProps) {
             
             {user?.role === "user" && (
               <Link className={styles.cartButton} href="/cart">
-                cart
+                Cart
               </Link>
             )}
 
             {user && (
               <form action={logoutAction}>
                 <button className={styles.logoutButton} type="submit">
-                  logout
+                  Log out
                 </button>
               </form>
             )}
           </div>
         </header>
 
-        <main>{children}</main>
+        <main className={styles.content}>{children}</main>
 
         <footer className={styles.footer}>
           <p>© 2026 Handcrafted Haven. Backed by the marketplace database.</p>

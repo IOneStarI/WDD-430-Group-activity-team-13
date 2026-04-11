@@ -12,16 +12,15 @@ type ShopBrowserProps = {
   initialSellerFilter?: string;
 };
 
-function StarRating({ rating }: { rating: number }) {
+function StarRating({
+  rating,
+  reviewCount,
+}: {
+  rating: number;
+  reviewCount: number;
+}) {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "3px",
-        marginTop: "6px",
-      }}
-    >
+    <div className={styles.ratingSummary}>
       {[1, 2, 3, 4, 5].map((star) => {
         const filled = rating >= star;
         const partial = !filled && rating > star - 1;
@@ -47,14 +46,9 @@ function StarRating({ rating }: { rating: number }) {
           </svg>
         );
       })}
-      <span
-        style={{
-          fontSize: "12px",
-          color: "var(--color-text-secondary)",
-          marginLeft: "2px",
-        }}
-      >
-        {Number(rating).toFixed(1)}
+      <span>
+        {Number(rating).toFixed(1)}{" "}
+        {reviewCount > 0 ? `(${reviewCount})` : "(new)"}
       </span>
     </div>
   );
@@ -202,40 +196,61 @@ export function ShopBrowser({
               </div>
 
               <div className={styles.itemGrid}>
-                {seller.items.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={`/shop/${item.slug}`}
-                    className={styles.item}
-                  >
-                    <div className={styles.itemBox}>
-                      <span className={styles.itemBadge}>
-                        {seller.storeName.split(" ")[0]}
-                      </span>
-                      {item.imageUrl ? (
-                        <img
-                          alt={item.name}
-                          className={styles.itemImage}
-                          src={item.imageUrl}
-                        />
-                      ) : (
-                        <span className={styles.itemPlaceholder}>
-                          Handmade item
-                        </span>
-                      )}
-                    </div>
-                    <div className={styles.itemContent}>
-                      <p className={styles.itemName}>{item.name}</p>
-                      <p className={styles.itemDescription}>
-                        {item.description}
-                      </p>
-                      <p className={styles.itemPrice}>
-                        {formatUsd(item.priceCents)}
-                      </p>
-                      <StarRating rating={item.rating ?? 0} />
-                    </div>
-                  </Link>
-                ))}
+                {seller.items.map((item) => {
+                  const addToCartWithItem = addToCartAction.bind(null, item.id);
+
+                  return (
+                    <article key={item.id} className={styles.item}>
+                      <Link
+                        href={`/shop/${item.slug}`}
+                        className={styles.itemLink}
+                      >
+                        <div className={styles.itemBox}>
+                          <span className={styles.itemBadge}>
+                            {seller.storeName.split(" ")[0]}
+                          </span>
+                          {item.imageUrl ? (
+                            <img
+                              alt={item.name}
+                              className={styles.itemImage}
+                              src={item.imageUrl}
+                            />
+                          ) : (
+                            <span className={styles.itemPlaceholder}>
+                              Handmade item
+                            </span>
+                          )}
+                        </div>
+                        <div className={styles.itemContent}>
+                          <p className={styles.itemName}>{item.name}</p>
+                          <p className={styles.itemDescription}>
+                            {item.description}
+                          </p>
+                        </div>
+                      </Link>
+
+                      <div className={styles.itemFooter}>
+                        <div>
+                          <p className={styles.itemPrice}>
+                            {formatUsd(item.priceCents)}
+                          </p>
+                          <StarRating
+                            rating={item.rating ?? 0}
+                            reviewCount={item.reviewCount}
+                          />
+                        </div>
+                        <form action={addToCartWithItem}>
+                          <SubmitButton
+                            className={styles.addToCartButton}
+                            pendingLabel="Adding..."
+                          >
+                            Add to cart
+                          </SubmitButton>
+                        </form>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </section>
           ))
