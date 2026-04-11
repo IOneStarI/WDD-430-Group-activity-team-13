@@ -80,12 +80,15 @@
 }
 
 .socialLink {
-  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   color: var(--color-text-primary);
   text-decoration: none;
-  padding: 0.3rem 0.75rem;
   border: 1px solid rgba(248, 250, 252, 0.16);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   transition: background 0.2s;
 }
 
